@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pacific DevOps Music Fest</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>🎵 Pacific DevOps Music Fest 🎵</h1>
+
+        <p class="fecha">Fecha del evento: 15 de Agosto 2026</p>
+
+        <h2>Artistas Invitados</h2>
+
+        <ul>
+            <li>Imagine Dragons</li>
+            <li>Coldplay</li>
+            <li>Martin Garrix</li>
+            <li>David Guetta</li>
+        </ul>
+
+        <button>Comprar Tickets</button>
+
+        <div class="api-box">
+            <h3>Información desde API</h3>
+            <p id="api-data">Cargando información...</p>
+        </div>
+    </div>
+
+<script>
+    fetch('http://localhost:5000/')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('api-data').innerHTML = `
+                Festival: ${data.festival} <br>
+                Fecha: ${data.fecha} <br>
+                Artistas: ${data.artistas.join(', ')}
+            `;
+        })
+        .catch(error => {
+            document.getElementById('api-data').innerText =
+                'Error conectando API';
+        });
+</script>
+
+</body>
+</html>

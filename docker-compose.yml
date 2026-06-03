@@ -1,0 +1,48 @@
+version: '3.9'
+
+services:
+
+  frontend:
+    build: ./frontend
+    container_name: frontend_festival
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - festival_network
+
+  backend:
+    build: ./backend
+    container_name: backend_festival
+    ports:
+      - "5000:5000"
+    environment:
+      MYSQL_HOST: database
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 123456
+      MYSQL_DATABASE: festivaldb
+    depends_on:
+      - database
+    networks:
+      - festival_network
+
+  database:
+    image: mysql:8.0
+    container_name: mysql_festival
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: festivaldb
+    ports:
+      - "3307:3307"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - festival_network
+
+volumes:
+  mysql_data:
+
+networks:
+  festival_network:
